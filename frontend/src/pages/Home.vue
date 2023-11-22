@@ -25,7 +25,7 @@
         
         <div class="home-about">
             <div class="image">
-                <img src="../assets/images/about-img.jpg" alt="">
+                <img src="../assets/images/dis-3.jpg" alt="">
             </div>
             <div class="content">
                 <span>Vì sao là Hemtrachanh ?</span>
@@ -265,7 +265,7 @@ export default {
 .home-about .content span {
     font-family: 'Satisfy', cursive;
     font-size: 3rem;
-    color: #f8f842;
+    color: #ffd700;
 }
 
 .home-about .content .title {

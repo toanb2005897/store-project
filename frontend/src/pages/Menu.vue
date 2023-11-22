@@ -82,7 +82,6 @@
             <button class="btn" @click="closeView">X</button>
         </QuickView>
     </div>
-    
 </template>
 
 <script>
@@ -112,10 +111,8 @@ export default {
 
         filterFoods: function () {
             return this.allFoods.filter((f) => f.food_name.toLowerCase().match(this.foodObj.name.toLowerCase()) &&
-                (f.food_category.match(this.foodObj.category) || this.foodObj.category == "Tất cả" || this.foodObj.category == "") &&
-                (this.evaluatePrice(f, this.foodObj.price)) &&
-                f.food_type.toLowerCase().match(this.foodObj.type.toLowerCase()) &&
-                (this.evaluateStatus(f, this.foodObj.status)));
+                (f.food_category.match(this.foodObj.category) || this.foodObj.category == "Tất cả" || this.foodObj.category == "")
+            );
         },
         currentPageItems: function () {
             return this.filterFoods.slice(this.pageNum * this.perPage, this.pageNum * this.perPage + this.perPage);
@@ -139,104 +136,6 @@ export default {
         previous() {
             this.pageNum--;
         },
-        checkSale: function (food, statusArray) {
-            if (statusArray.includes("Sale Off")) {
-                if (parseFloat(food.food_discount) > 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        checkBest: function (food, statusArray) {
-            if (statusArray.includes("Best Seller")) {
-                if (food.food_status.includes("best seller")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        checkOnl: function (food, statusArray) {
-            if (statusArray.includes("Online Only")) {
-                if (food.food_status.includes("online only")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        checkSeason: function (food, statusArray) {
-            if (statusArray.includes("Seasonal Dishes")) {
-                if (food.food_status.includes("seasonal dishes")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        checkNew: function (food, statusArray) {
-            if (statusArray.includes("New Dishes")) {
-                if (food.food_status.includes("new dishes")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        evaluateStatus: function (food, statusArray) {
-            this.pageNum = 0;
-            if (statusArray.length != 0) {
-                if (this.checkSale(food, statusArray) && this.checkBest(food, statusArray) && this.checkNew(food, statusArray) && this.checkSeason(food, statusArray) && this.checkOnl(food, statusArray)) {
-                    return food;
-                }
-            }
-            else {
-                return food;
-            }
-        },
-        evaluatePrice: function (food, priceRange) {
-            this.pageNum = 0;
-            var cal = parseFloat(food.food_price) - parseFloat(food.food_discount);
-            if (priceRange == "15.000") {
-                if (cal <= 15.000) {
-                    return food;
-                }
-            }
-            else if (priceRange == "20000,30000") {
-                if (20000 <= cal && cal <= 30000) {
-                    return food;
-                }
-            }
-            else if (priceRange == "30000,40000") {
-                if (30000 <= cal && cal <= 40000) {
-                    return food;
-                }
-            }
-            else if (priceRange == "40000") {
-                if (cal >= 40000) {
-                    return food;
-                }
-            }
-            else if (priceRange == "14999") {
-                if (cal <= 14999) {
-                    return food;
-                }
-            }
-            else if (priceRange == "") {
-                return food;
-            }
-        },
         addItem: function (index) {
             this.sendId = parseInt(this.currentPageItems[index].food_id);
             this.showQuickView = !this.showQuickView;
@@ -245,23 +144,6 @@ export default {
         closeView: function () {
             this.showQuickView = !this.showQuickView;
         },
-
-        displayFilterDrop: function () {
-            let divControl1 = document.getElementsByClassName("filter-heading");
-            let divControl2 = document.getElementsByClassName("filter-section");
-            for (var i = 0; i < divControl1.length; i++) {
-                if (this.showDropDown) {
-                    divControl1[i].style.display = "none";
-                    divControl2[i].style.display = "none";
-                }
-                else {
-                    divControl1[i].style.display = "block";
-                    divControl2[i].style.display = "block";
-                }
-            }
-            this.showDropDown = !this.showDropDown;
-        }
-
     },
     components: { QuickView }
 };
@@ -368,7 +250,7 @@ hr {
     padding: 5px 30px;
     border-radius: 30%;
     font-size: 20px;
-    color: white;
+    color: #057835;
     font-weight: 500;
     text-transform: capitalize;
     transition: all 0.3s ease;
